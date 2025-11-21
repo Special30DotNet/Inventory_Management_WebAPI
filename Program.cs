@@ -7,6 +7,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<InventoryDbContext>(options =>
+       options.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

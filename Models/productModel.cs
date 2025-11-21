@@ -1,6 +1,6 @@
 ﻿namespace Inventory_Management_WebAPI.Models
 {
-    public class clothesInventory
+    public class clothesModel
     {
         public int Id { get; set; }
         public string Product_Name { get; set; }

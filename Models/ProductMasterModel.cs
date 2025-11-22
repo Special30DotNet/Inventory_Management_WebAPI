@@ -2,7 +2,7 @@
 
 namespace Inventory_Management_WebAPI.Models
 {
-    public class TataMotorsCarsModel
+    public class ProductMasterModel
     {
         [Key]
         public int id { get; set; }

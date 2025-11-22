@@ -27,7 +27,7 @@ namespace Inventory_Management_WebAPI.Controllers
         IEnumerable<TataMotorsCarsModel> => means it returns a list of car/product objects.
         ToListAsync() => Executes SQL query asynchronously and returns data as a List.
         */
-        public async Task<ActionResult<IEnumerable<TataMotorsCarsModel>>> GetProductsList()
+        public async Task<ActionResult<IEnumerable<ProductMasterModel>>> GetProductsList()
         {
             var products = await _Inverntrydbcontext.tblProductMasters.ToListAsync();
             if (products == null)
@@ -43,7 +43,7 @@ namespace Inventory_Management_WebAPI.Controllers
          * FirstOrDefaultAsync => Searching by any field (slower than findAsync());
          * eg. var product = await _Inverntrydbcontext.tblProductMasters.FirstOrDefaultAsync(p => p.id == id);
          */
-        public async Task<ActionResult<TataMotorsCarsModel>> GetSingleProduct(int Id)
+        public async Task<ActionResult<ProductMasterModel>> GetSingleProduct(int Id)
         {
             var product = await _Inverntrydbcontext.tblProductMasters.FindAsync(Id);
             //var product = await _Inverntrydbcontext.tblProductMasters.FirstOrDefaultAsync(p => p.product_name == name);
@@ -56,7 +56,7 @@ namespace Inventory_Management_WebAPI.Controllers
 
         // Create product record
         [HttpPost]
-        public async Task<ActionResult<TataMotorsCarsModel>> AddProduct(TataMotorsCarsModel tataMotorsCars)
+        public async Task<ActionResult<ProductMasterModel>> AddProduct(ProductMasterModel tataMotorsCars)
         {
             if(tataMotorsCars == null)
             {

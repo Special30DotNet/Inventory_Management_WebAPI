@@ -16,8 +16,9 @@ namespace Inventory_Management_WebAPI.Models
         [Required]
         public int product_stock_quantity { get; set; }
         [Required]
-        public string status { get;set; }
+        public string status { get; set; }
         [Required]
+        public string image_url { get; set; }
         public DateTime created_at { get; set; }
         [Required]
         public string created_by { get; set; }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Inventory_Management_WebAPI.Controllers
 {
@@ -54,7 +55,7 @@ namespace Inventory_Management_WebAPI.Controllers
             return Ok(product);
         }
 
-        // Create product record
+        // add product in record
         [HttpPost("AddProduct")]
         public async Task<ActionResult<ProductMasterModel>> AddProduct(ProductMasterModel productDetails)
         {
@@ -65,7 +66,21 @@ namespace Inventory_Management_WebAPI.Controllers
              _Inverntrydbcontext.tblProductMasters.Add(productDetails);
              await _Inverntrydbcontext.SaveChangesAsync();
             //return CreatedAtAction(nameof(GetProductsList), new { id = productDetails.id },productDetails);
-            return Ok("Product saved successfully");
+            return Ok("Product saved!");
+        }
+
+        // Delete product Api
+        [HttpDelete("DeleteRecord/{Id}")]
+        public async Task<IActionResult> DeleteRecord(int Id)
+        {
+            var Product = await _Inverntrydbcontext.tblProductMasters.FindAsync(Id);
+            if (Product == null)
+            {
+                return NotFound("Product not found");
+            }
+            _Inverntrydbcontext.tblProductMasters.Remove(Product);
+            await _Inverntrydbcontext.SaveChangesAsync();
+            return Ok("Record deleted!");
         }
     }
 }

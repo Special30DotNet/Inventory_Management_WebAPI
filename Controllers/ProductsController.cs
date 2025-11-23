@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Inventory_Management_WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -16,7 +16,7 @@ namespace Inventory_Management_WebAPI.Controllers
         }
 
         // Get product list
-        [HttpGet]
+        [HttpGet("Products")]
         /* public => This method can be accessed from outside (API clients like Postman, Angular, etc.)
         async => This method runs asynchronously (non-blocking).
         Helps performance — it does not freeze the thread while waiting for DB response.
@@ -38,7 +38,7 @@ namespace Inventory_Management_WebAPI.Controllers
         }
 
         // Get Product list by id
-        [HttpGet("{Id}")]
+        [HttpGet("Products/{Id}")]
         /* FindAsync(id) => is an Entity Framework Core method used to quickly find a single record by its primary key.
          * FirstOrDefaultAsync => Searching by any field (slower than findAsync());
          * eg. var product = await _Inverntrydbcontext.tblProductMasters.FirstOrDefaultAsync(p => p.id == id);
@@ -55,16 +55,17 @@ namespace Inventory_Management_WebAPI.Controllers
         }
 
         // Create product record
-        [HttpPost]
-        public async Task<ActionResult<ProductMasterModel>> AddProduct(ProductMasterModel tataMotorsCars)
+        [HttpPost("AddProduct")]
+        public async Task<ActionResult<ProductMasterModel>> AddProduct(ProductMasterModel productDetails)
         {
-            if(tataMotorsCars == null)
+            if(productDetails == null)
             {
                 return BadRequest("Bad Request");
             }
-             _Inverntrydbcontext.tblProductMasters.Add(tataMotorsCars);
+             _Inverntrydbcontext.tblProductMasters.Add(productDetails);
              await _Inverntrydbcontext.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetProductsList), new { id = tataMotorsCars.id },tataMotorsCars);
+            //return CreatedAtAction(nameof(GetProductsList), new { id = productDetails.id },productDetails);
+            return Ok("Product saved successfully");
         }
     }
 }

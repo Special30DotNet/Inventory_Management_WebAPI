@@ -60,8 +60,7 @@ namespace Inventory_Management_WebAPI.Controller
         [HttpPut("{id}")]
         public async Task<ActionResult<AutomotiveProduct>> PutProductModel(int id, [FromBody] AutomotiveProduct productModel)
         {
-            if (id != productModel.id)
-                return BadRequest("Product ID mismatch");
+            productModel.id = id;  // Force the ID from URL
 
             _automotiveDbContext.Entry(productModel).State = EntityState.Modified;
 
@@ -71,15 +70,12 @@ namespace Inventory_Management_WebAPI.Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                // if record not found
-                var exists = _automotiveDbContext.tblProductMasters.Any(p => p.id == id);
-                if (!exists)
+                if (!_automotiveDbContext.tblProductMasters.Any(p => p.id == id))
                     return NotFound();
-
-                throw;  // other DB errors
+                throw;
             }
 
-            return Ok(productModel);  // or return NoContent();
+            return Ok(productModel);
         }
 
 

@@ -14,6 +14,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AutomotiveDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy
+            .SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost") // any localhost port
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAngular");
 
 app.UseAuthorization();
 

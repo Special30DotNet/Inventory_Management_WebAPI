@@ -14,5 +14,7 @@ namespace Inventory_Management_WebAPI
         public InventryDbContext(DbContextOptions<InventryDbContext> options) : base(options) { }
 
         public DbSet<ProductMasterModel> tblProductMasters {  get; set; } // DbSet : to map the table
+
+        public DbSet<AdminMasterModel> tblAdminMasters { get; set; }
     }
 }

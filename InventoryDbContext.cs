@@ -7,7 +7,6 @@ namespace Inventory_Management_WebAPI
     {
         public InventoryDbContext(DbContextOptions<InventoryDbContext> options)
             : base(options) { }
-
         public DbSet<ProductModel> tblProductMasters { get; set; }
     }
 }

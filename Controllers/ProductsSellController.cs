@@ -1,32 +1,38 @@
-﻿using Inventory_Management_WebAPI.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Inventory_Management_WebAPI;
+using Inventory_Management_WebAPI.Models;
 
 namespace Inventory_Management_WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductModelsController : ControllerBase
+    public class ProductsSellController : ControllerBase
     {
         private readonly InventoryDbContext _context;
 
-        public ProductModelsController(InventoryDbContext context)
+        public ProductsSellController(InventoryDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/ProductModels
+        // GET: api/ProductsSell
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductModel>>> GettblProductMasters()
         {
             return await _context.tblProductMasters.ToListAsync();
         }
 
-        // GET: api/ProductModels/5
-        [HttpGet("{id},{product_name}")]
-        public async Task<ActionResult<ProductModel>> GetProductModel([FromBody] int id, string product_name)
+        // GET: api/ProductsSell/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ProductModel>> GetProductModel(int id)
         {
-            var productModel = await _context.tblProductMasters.FindAsync( );
+            var productModel = await _context.tblProductMasters.FindAsync(id);
 
             if (productModel == null)
             {
@@ -36,7 +42,7 @@ namespace Inventory_Management_WebAPI.Controllers
             return productModel;
         }
 
-        // PUT: api/ProductModels/5
+        // PUT: api/ProductsSell/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutProductModel(int id, ProductModel productModel)
@@ -54,11 +60,11 @@ namespace Inventory_Management_WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductModelExists(id))//True
+                if (!ProductModelExists(id))
                 {
                     return NotFound();
                 }
-                else //false
+                else
                 {
                     throw;
                 }
@@ -67,7 +73,7 @@ namespace Inventory_Management_WebAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/ProductModels
+        // POST: api/ProductsSell
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<ProductModel>> PostProductModel(ProductModel productModel)
@@ -78,7 +84,7 @@ namespace Inventory_Management_WebAPI.Controllers
             return CreatedAtAction("GetProductModel", new { id = productModel.id }, productModel);
         }
 
-        // DELETE: api/ProductModels/5
+        // DELETE: api/ProductsSell/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductModel(int id)
         {

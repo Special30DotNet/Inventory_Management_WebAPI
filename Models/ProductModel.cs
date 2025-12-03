@@ -9,7 +9,7 @@ namespace Inventory_Management_WebAPI.Models
         [Required]
         public string product_name { get; set; }
         [Required]
-        public decimal purchase_price { get; set; }
+        public decimal purchase_price { get; set; } 
         public string? product_decription { get; set; }
         [Required]
         public decimal product_selling_price { get; set; }

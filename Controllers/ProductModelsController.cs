@@ -24,6 +24,7 @@ namespace Inventory_Management_WebAPI.Controllers
 
         // GET: api/ProductModels/5
         [HttpGet("{id},{product_name}")]
+        [ActionName("GetProduct")]
         public async Task<ActionResult<ProductModel>> GetProductModel([FromBody] int id, string product_name)
         {
             var productModel = await _context.tblProductMasters.FindAsync( );

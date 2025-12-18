@@ -21,10 +21,16 @@ namespace Inventory_Management_WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AgriCultureProduct>>> GetProducts()
         {
-            if (_agriCultureDbContexts.tblProductMasters == null)
-                return NotFound("data not found");
+            //    if (_agriCultureDbContexts.tblProductMasters == null)
+            //        return NotFound("data not found");
+            //    else
+            //        return await _agriCultureDbContexts.tblProductMasters.ToListAsync();
+
+            var product = await _agriCultureDbContexts.tblProductMasters.ToListAsync();
+            if (product == null)
+                return NotFound("Data Not Found");
             else
-                return await _agriCultureDbContexts.tblProductMasters.ToListAsync();
+                return Ok(product);
         }
 
 
@@ -57,11 +63,14 @@ namespace Inventory_Management_WebAPI.Controllers
 
         // PUT api/<AgriCultureController>/5
         [HttpPut("{id}")]
-        public async Task<ActionResult<AgriCultureProduct>> PutProductModel(int id, [FromBody] AgriCultureProduct productModel)
+        public async Task<ActionResult<IEnumerable<AgriCultureProduct>>> PutProductModel(int id,  AgriCultureProduct productModel)
         {
             productModel.id = id;  // Force the ID from URL
 
+            
             _agriCultureDbContexts.Entry(productModel).State = EntityState.Modified;
+
+
 
             try
             {
@@ -78,7 +87,7 @@ namespace Inventory_Management_WebAPI.Controllers
         }
 
 
-        // DELETE api/<AgriCultureController>/5
+        // DELETE api/<AgriCultureController>/5 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProductModel(int id)
         {

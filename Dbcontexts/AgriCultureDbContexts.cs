@@ -11,6 +11,8 @@ namespace Inventory_Management_WebAPI
            
         }
         public DbSet<AgriCultureProduct> tblProductMasters { get; set; }
+        
+        public DbSet<RegisterUser> tblUserInformation {  get; set; }
 
 
 

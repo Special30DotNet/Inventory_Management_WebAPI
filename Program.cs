@@ -1,5 +1,8 @@
+using System.Text;
 using Inventory_Management_WebAPI;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,25 @@ builder.Services.AddSwaggerGen();
 // SQL Connection
 builder.Services.AddDbContext<AgriCultureDbContexts>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection")));
+
+//Gererate JWT Token
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+            ValidAudience = builder.Configuration["JWT:ValidAudience"],
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"])
+            )
+        };
+    }); 
+
 
 // CORS Setup
 builder.Services.AddCors(options =>

@@ -82,5 +82,36 @@ namespace Inventory_Management_WebAPI.Controllers
             await _Inverntrydbcontext.SaveChangesAsync();
             return Ok("Record deleted!");
         }
+
+        // Update record using put method
+        [HttpPut("EditProduct/{Id}")]
+        public async Task<IActionResult> EditRecord(int Id, ProductMasterModel productMasterModel)
+        {
+            var Exisstingproduct = await _Inverntrydbcontext.tblProductMasters.FindAsync(Id);
+            if (Id != productMasterModel.id)
+            {
+                return BadRequest("Bad request");
+            }
+            if (Exisstingproduct == null)
+            {
+                return NotFound("Product not found");
+            }
+            if (productMasterModel != null) {
+                Exisstingproduct.product_name = productMasterModel.product_name;
+                Exisstingproduct.product_decription = productMasterModel.product_decription;
+                Exisstingproduct.purchase_price = productMasterModel.purchase_price;
+                Exisstingproduct.product_selling_price = productMasterModel.product_selling_price;
+                Exisstingproduct.product_stock_quantity = productMasterModel.product_stock_quantity;
+                Exisstingproduct.status = productMasterModel.status;
+                Exisstingproduct.image_url = productMasterModel.image_url;
+                Exisstingproduct.created_at = productMasterModel.created_at;
+                Exisstingproduct.created_by = productMasterModel.created_by;
+                Exisstingproduct.modified_at = productMasterModel.modified_at;
+                Exisstingproduct.modified_by = productMasterModel.modified_by;
+                //_Inverntrydbcontext.Entry(productMasterModel).State = EntityState.Modified; // This is useful when we have less fields
+            }
+            await _Inverntrydbcontext.SaveChangesAsync();
+            return Ok("Product updated successfully");
+        }
     }
 }

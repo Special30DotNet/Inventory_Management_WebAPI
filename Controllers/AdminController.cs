@@ -4,6 +4,7 @@ using System.Text;
 using Inventory_Management_WebAPI.DTO;
 using Inventory_Management_WebAPI.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -16,11 +17,15 @@ namespace Inventory_Management_WebAPI.Controllers
     {
         private readonly InventryDbContext _dbContext;
         private readonly IConfiguration _config;
-        public AdminController(InventryDbContext dbContext, IConfiguration configuration)
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public AdminController(InventryDbContext dbContext, IConfiguration configuration, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             {
                 _dbContext = dbContext;
                 _config = configuration;
+                _userManager = userManager;
+                _roleManager = roleManager;
             }
         }
 

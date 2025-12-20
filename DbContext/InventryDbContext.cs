@@ -16,5 +16,7 @@ namespace Inventory_Management_WebAPI
         public DbSet<ProductMasterModel> tblProductMasters {  get; set; } // DbSet : to map the table
 
         public DbSet<AdminMasterModel> tblAdminMasters { get; set; }
+
+        public DbSet<RegisterUserModel> tblUserInformation { get; set; }
     }
 }
